@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>WeatherApp Madrid</title>
+    <meta name="description" content="Aplicación web del tiempo en Madrid">
+    <meta name="author" content="Pablo Durán Camacho">
+    <meta name="keywords" content="Madrid, El Tiempo">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="node_modules/materialize/css/materialize.min.css">
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body ng-app="weatherAppMadrid">
+
+    <div ng-view=""></div>
+
+
+	<script src="node_modules/jquery/jquery-3.1.1.min.js"></script>
+    <script src="node_modules/materialize/js/materialize.min.js"></script>
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-route/angular-route.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/home.js"></script>
+</body>
+</html>

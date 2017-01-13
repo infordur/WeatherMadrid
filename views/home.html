@@ -1,0 +1,108 @@
+<header>
+	<ul id="nav-mobile" class="side-nav fixed collection">
+		<div ng-repeat="weatherdata in weatherdata.list">
+            <li class="collection-item avatar hover" ng-click="getCurrentWeatherdata(weatherdata, $index); getNextHours($index)" ng-class="{active: $index == selected}">
+                <div ng-repeat="weather in weatherdata.weather">
+                    <img src="http://openweathermap.org/img/w/{{weather.icon}}.png" alt="{{weather.description}}" class="circle">
+                </div>
+				<b><span class="title" ng-bind="formatDate(weatherdata.dt_txt) |  date:'dd/MM/yyyy - HH:mm'"></span></b>
+				<p>{{weatherdata.main.temp_min}} ºC <br>
+			 	{{weatherdata.main.temp_max}} ºC
+				</p>
+			</li>
+		</div>
+	</ul>
+</header>
+
+<main>
+	<div class="container">
+        <h2 class="center-align no-margin white-text title">Comunidad de Madrid</h2>
+
+        <div class="row">
+            <div class="card card-medium">
+                <br/>
+                <h5 ng-bind="formatDate(currentWeatherData.dt_txt) |  date:'dd/MM/yyyy - HH:mm'" class="center-align"></h5>
+                <div class="card-image">
+                    <div ng-repeat="weather in currentWeatherData.weather">
+                        <img src="http://openweathermap.org/img/w/{{weather.icon}}.png" alt="{{weather.description}}" class="circle">
+                    </div>
+                </div>
+                <div class="card-content center-align">
+                    <div ng-repeat="weather in currentWeatherData.weather" class="">
+                        <span class="card-title grey-text text-darken-4 capitalize"><b>{{weather.description}}</b></span>
+                    </div>
+                    <br/>                  
+                    <a class="waves-effect waves-light btn">Temp - <b>({{currentWeatherData.main.temp}} ºC)</b></a>
+                    <a class="waves-effect waves-light btn">Temp min - <b>({{currentWeatherData.main.temp_min}} ºC)</b></a>
+                    <a class="waves-effect waves-light btn">Temp max - <b>({{currentWeatherData.main.temp_max}} ºC)</b></a>
+                    <a class="waves-effect waves-light btn">Humedad - <b>({{currentWeatherData.main.humidity}}%)</b></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s4 m4" ng-class="{hide: !nofirsthour}">
+                <div class="card">
+                    <div class="card-image card-image-small">
+                        <div ng-repeat="weather in firstWeatherData.weather">
+                            <img src="http://openweathermap.org/img/w/{{weather.icon}}.png" alt="{{weather.description}}" class="circle">
+                        </div>
+                    </div>
+                    <div class="card-stacked">
+                        <div class="center-align">
+                            <span class="title" ng-bind="formatDate(firstWeatherData.dt_txt) |  date:'dd/MM/yyyy - HH:mm'"></span>
+                        </div>
+                        <div class="card-content">
+                            <span class="blue-text">Temp - ({{firstWeatherData.main.temp}} ºC)</span> <br/>
+                            <span class="blue-text">Temp min - ({{firstWeatherData.main.temp_min}} ºC)</span> <br/>
+                            <span class="blue-text">Temp max - ({{firstWeatherData.main.temp_max}} ºC)</span> <br/>
+                            <span class="blue-text">Humedad - ({{firstWeatherData.main.humidity}}%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s4 m4" ng-class="{hide: !nosecondhour}">
+                <div class="card">
+                    <div class="card-image card-image-small">
+                        <div ng-repeat="weather in secondWeatherData.weather">
+                            <img src="http://openweathermap.org/img/w/{{weather.icon}}.png" alt="{{weather.description}}" class="circle">
+                        </div>
+                    </div>
+                    <div class="card-stacked">
+                        <div class="center-align">
+                            <span class="title" ng-bind="formatDate(secondWeatherData.dt_txt) |  date:'dd/MM/yyyy - HH:mm'"></span>
+                        </div>
+                        <div class="card-content">
+                            <span class="blue-text">Temp - ({{secondWeatherData.main.temp}} ºC)</span> <br/>
+                            <span class="blue-text">Temp min - ({{secondWeatherData.main.temp_min}} ºC)</span> <br/>
+                            <span class="blue-text">Temp max - ({{secondWeatherData.main.temp_max}} ºC)</span> <br/>
+                            <span class="blue-text">Humedad - ({{secondWeatherData.main.humidity}}%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s4 m4" ng-class="{hide: !nolasthour}">
+                <div class="card">
+                    <div class="card-image card-image-small">
+                        <div ng-repeat="weather in thirdWeatherData.weather">
+                            <img src="http://openweathermap.org/img/w/{{weather.icon}}.png" alt="{{weather.description}}" class="circle">
+                        </div>
+                    </div>
+                    <div class="card-stacked">
+                        <div class="center-align">
+                            <span class="title" ng-bind="formatDate(thirdWeatherData.dt_txt) |  date:'dd/MM/yyyy - HH:mm'"></span>
+                        </div>
+                        <div class="card-content">
+                            <span class="blue-text">Temp - ({{thirdWeatherData.main.temp}} ºC)</span> <br/>
+                            <span class="blue-text">Temp min - ({{thirdWeatherData.main.temp_min}} ºC)</span> <br/>
+                            <span class="blue-text">Temp max - ({{thirdWeatherData.main.temp_max}} ºC)</span> <br/>
+                            <span class="blue-text">Humedad - ({{thirdWeatherData.main.humidity}}%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</main>
