@@ -17,7 +17,7 @@ angular.module('weatherAppMadrid')
             lat: 40.4379332,
             long: -3.7495757
         }
-        const unit = 'metric';
+        const unit = 'metric'; // Unit
 		const lang = 'es'; //Language format
 
 		$scope.selected = 0; //store the index of first selected item from nav
@@ -63,7 +63,9 @@ angular.module('weatherAppMadrid')
             $scope.weatherDaily = weatherDaily.slice(index);
         }
         
-
+        /**
+    	 * Change menuStatus scope to active or inactive (true / false)
+    	 */
         $scope.changeSideMenuStatus = () => {
             $scope.menuStatus = !$scope.menuStatus;
         }
@@ -91,11 +93,10 @@ angular.module('weatherAppMadrid')
                 const data = response.data;
                 const current = data.current;
                 const daily = data.daily;
-                $scope.firstWeatherData = daily[0];
-                $scope.secondWeatherData = daily[1];
-                $scope.thirdWeatherData = daily[2];
+              
                 $scope.weatherdata = daily;	//Store all the items
                 $scope.weatherDaily = daily;
+
             }
         }).catch((error) => {
             console.log(error);

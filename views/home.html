@@ -17,7 +17,6 @@
             </ul>
         </div>
 
-
         <div class="hidden-sm">
             <div class="header header-auto-show header-logo-app header-active d-flex align-items-center bg-highlight">
                 <a class="header-title flex-grow-1 text-white">
@@ -73,16 +72,16 @@
                         <br/>
                         <div class="row">
                             <div class="col s12 m3">
-                                <a class="waves-effect waves-light btn my-1">Temp - <b>({{currentWeatherData.main.temp}} ºC)</b></a>
+                                <a class="waves-effect waves-light btn my-1">Temp - <b>({{currentWeatherData.main.temp || currentWeatherData.temp.day}} ºC)</b></a>
                             </div>
                             <div class="col s12 m3">
-                                <a class="waves-effect waves-light btn my-1">Temp min - <b>({{currentWeatherData.main.temp_min}} ºC)</b></a>
+                                <a class="waves-effect waves-light btn my-1">Temp min - <b>({{currentWeatherData.main.temp_min || currentWeatherData.temp.min}} ºC)</b></a>
                             </div>
                             <div class="col s12 m3">
-                                <a class="waves-effect waves-light btn my-1">Temp max - <b>({{currentWeatherData.main.temp_max}} ºC)</b></a>
+                                <a class="waves-effect waves-light btn my-1">Temp max - <b>({{currentWeatherData.main.temp_max || currentWeatherData.temp.max}} ºC)</b></a>
                             </div>
                             <div class="col s12 m3">
-                                <a class="waves-effect waves-light btn my-1">Humedad - <b>({{currentWeatherData.main.humidity}}%)</b></a>
+                                <a class="waves-effect waves-light btn my-1">Humedad - <b>({{currentWeatherData.main.humidity || currentWeatherData.humidity}}%)</b></a>
                             </div>     
                         </div>
                     </div>
