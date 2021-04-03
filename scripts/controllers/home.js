@@ -11,21 +11,28 @@
 angular.module('weatherAppMadrid')
 	.controller('homeCtrl', function ($scope, $http) {
 
-		var idcity='3117732'; //City id (Madrid)
-		var apikey='f230e33459e1432af16ae4d4ac045df2'; //API Key
-		var lang='es'; //Language format
+		const idcity = '3117732'; //City id (Madrid)
+        const apiKey = 'a41feaf08bd4cbc90ad382d5c93b2fe2';
+        const cityGeoCoords = {
+            lat: 40.4379332,
+            long: -3.7495757
+        }
+        const unit = 'metric';
+		const lang = 'es'; //Language format
 
 		$scope.selected = 0; //store the index of first selected item from nav
-		$scope.nolasthour=true;
-		$scope.nosecondhour=true;
-		$scope.nofirsthour=true;
+		$scope.nolasthour = true;
+		$scope.nosecondhour = true;
+        $scope.nofirsthour = true;
+        
+        $scope.menuStatus = false;
 
 		/**
 		 * Get the actual object from the list and store into a scope
 		 * @param  {array} data  
 		 * @param  {int} index index from the array
 		 */
-		$scope.getCurrentWeatherdata = function(data, index) {
+		$scope.getCurrentWeatherdata = (data, index) => {
 			$scope.currentWeatherData = data;
 			$scope.selected = index;
 		};
@@ -36,9 +43,11 @@ angular.module('weatherAppMadrid')
 		 * @param  {string} date date from the api
 		 * @return {date}      format date
 		 */
-		$scope.formatDate = function(date){
-			var dateOut = new Date(date);
-			return dateOut;
+        $scope.formatDate = (date) => {
+            if (date) {
+                const dateOut = new Date(date * 1000);
+                return dateOut;
+            }
     	};
 
 
@@ -46,43 +55,52 @@ angular.module('weatherAppMadrid')
     	 * Get next items from current object
     	 * @param  {int} index array index
     	 */
-    	$scope.getNextHours = function(index) {
-				$scope.nolasthour = true;
-				$scope.nosecondhour = true;
-				$scope.nofirsthour = true;
-						
-				if($scope.weatherdata.list[index+3] == undefined){
-					$scope.nolasthour = false;
-				}
-				if($scope.weatherdata.list[index+2] == undefined){
-					$scope.nosecondhour = false;
-				}
-				if($scope.weatherdata.list[index+1] == undefined){
-					$scope.nofirsthour = false;
-				}
-				
-				$scope.firstWeatherData = $scope.weatherdata.list[index+1];
-				$scope.secondWeatherData = $scope.weatherdata.list[index+2];
-				$scope.thirdWeatherData = $scope.weatherdata.list[index+3];	
-    	}
+    	$scope.getNextHours = (index) => {
+            const weatherDaily = [...$scope.weatherdata];
+            $scope.nolasthour = false ? weatherDaily[index + 3] == undefined : true;
+            $scope.nosecondhour = false ? weatherDaily[index + 2] == undefined : true;
+            $scope.nofirsthour = false ? weatherDaily[index + 1] == undefined : true;
+            $scope.weatherDaily = weatherDaily.slice(index);
+        }
+        
+
+        $scope.changeSideMenuStatus = () => {
+            $scope.menuStatus = !$scope.menuStatus;
+        }
 
 
     	/**
-    	 * Get the API data and store in an angular scope
+    	 * Get the Current Weather data from API and store in an angular scope
     	 * @param  {object} data API weather data			
     	 */
-		$http.get('http://api.openweathermap.org/data/2.5/forecast/city?id='+idcity+'&lang='+lang+'&APPID='+apikey+'&units=metric')
-		.success(function(data) {
-			$scope.currentWeatherData=data.list[0]; //Store the first item
-			$scope.firstWeatherData=data.list[1]; //Store the second item
-			$scope.secondWeatherData=data.list[2]; //Store the third item
-			$scope.thirdWeatherData=data.list[3]; //Store the four item
-			$scope.weatherdata = data;	//Store all the items
+        $http.get(`http://api.openweathermap.org/data/2.5/weather?id=${idcity}&units=${unit}&lang=${lang}&APPID=${apiKey}`).then((response) => {
+            if (response.status == 200) {
+                const data = response.data;
+                $scope.currentWeatherData = data;
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
 
-		})
-		.error(function(e) {
+        /**
+    	 * Get the 7 days data since today from API and store in an angular scope
+    	 * @param  {object} data API weather data			
+    	 */
+        $http.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${cityGeoCoords.lat}&lon=${cityGeoCoords.long}&exclude=minutely,hourly,current&lang=${lang}&units=${unit}&appid=${apiKey}`).then((response) => {
+            if (response.status == 200) {
+                const data = response.data;
+                const current = data.current;
+                const daily = data.daily;
+                $scope.firstWeatherData = daily[0];
+                $scope.secondWeatherData = daily[1];
+                $scope.thirdWeatherData = daily[2];
+                $scope.weatherdata = daily;	//Store all the items
+                $scope.weatherDaily = daily;
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
 
-		});
-	});
+});
 
 
